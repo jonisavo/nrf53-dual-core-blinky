@@ -36,11 +36,14 @@ static void handle_button_press(const struct device* dev, const button_t button)
 {
     const gpio_pin_t pin = button_get_pin(button);
     const int state = gpio_pin_get(dev, pin);
+
     LOG_INF("Button %d press event: %s", button, state ? "pressed" : "released");
+
     current_message.type = ICMSG_TYPE_BUTTON;
     current_message.data = 0;
     current_message.bytes[0] = button;
     current_message.bytes[1] = state;
+
     icmsg_send(&current_message);
 }
 
@@ -68,7 +71,7 @@ int main(void)
 {
     log_init();
 
-	LOG_INF("Hello world from %s", CONFIG_BOARD);
+    LOG_INF("Hello world from %s", CONFIG_BOARD);
 
     ipc_init(&ep_cfg);
     button_init();
